@@ -24,10 +24,12 @@ function render() {
 }
 render();
 
-let delta = Date.now();
+let start = Date.now();
+let delta = Date.now() - start;
 function physicProcess() {
-  observer.notify("physic_process", (Date.now() - delta) / 1000);
-  delta = Date.now();
+  delta = Date.now() - start;
+  observer.notify("physic_process", delta / 1000);
+  start = Date.now();
   requestAnimationFrame(physicProcess);
 }
 physicProcess();
