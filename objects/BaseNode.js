@@ -21,11 +21,13 @@ export class Node_ {
   }
 
   sendEventForMe(event, ...args) {
-    if ("_" + event in this) {
-      this["_" + event](...args);
-    }
-    if ("__" + event in this) {
-      this["__" + event](...args);
+    if (!this.parent) {
+      if ("_" + event in this) {
+        this["_" + event](...args);
+      }
+      if ("__" + event in this) {
+        this["__" + event](...args);
+      }
     }
   }
 
