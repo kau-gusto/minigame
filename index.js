@@ -1,50 +1,33 @@
-import { RigidBody2D } from "./objects/RigidBody.js";
-import { Rect2D } from "./objects/PrimaryDraw.js";
-import { Observer } from "./observers/observer.js";
-import { Vector2 } from "./types/Vectors.js";
-import { Input } from "./input.js";
+import KinematicBody2D from "./Togod/objects/2D/KinematicBody2D.js";
+import Rect2D from "./Togod/objects/2D/Rect2D.js";
+import PhysicsBody2D from "./Togod/objects/2D/PhysicsBody2D.js";
+import Input from "./Togod/observers/Input.js";
+import { Vector2 } from "./Togod/types/Vectors.js";
+import { colliders, init, observer } from "./Togod/index.js";
+import Collider2D from "./Togod/objects/2D/Collider2D.js";
 
-const vector2 = new Vector2(1, 2);
-const vector22 = new Vector2(1, 2);
-const result = vector2.add(vector22);
-console.log(result, vector2);
-
-const observer = new Observer();
-const input = new Input(observer);
 /**
  * @type {HTMLCanvasElement}
  */
 const canvas = document.querySelector("canvas#root");
 const ctx = canvas.getContext("2d");
+init(canvas, ctx);
+const input = new Input(observer);
 
-function render() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  observer.notify("render", ctx);
-  requestAnimationFrame(render);
-}
-render();
-
-let start = Date.now();
-let delta = Date.now() - start;
-function physicProcess() {
-  delta = Date.now() - start;
-  observer.notify("physic_process", delta / 1000);
-  start = Date.now();
-  requestAnimationFrame(physicProcess);
-}
-physicProcess();
-
-class NodeBase extends RigidBody2D {
+class NodeBase extends KinematicBody2D {
   constructor() {
     super();
     this.direction = Vector2.ZERO;
+    this.velocity = Vector2.ZERO;
+    this.forceGravity = 10;
+    this.gravity = 0;
   }
 
   _physic_process(delta) {
-    // console.log(delta);
+    this.gravity += this.forceGravity * delta;
     this.direction = Vector2.ZERO;
-    if (input.isKeyPressed("w")) {
-      this.direction.y -= 1;
+    if (input.isJustKeyPressed(" ") && this.is_on_floor) {
+      this.gravity = -5;
     }
     if (input.isKeyPressed("a")) {
       this.direction.x -= 1;
@@ -55,16 +38,36 @@ class NodeBase extends RigidBody2D {
     if (input.isKeyPressed("d")) {
       this.direction.x += 1;
     }
-    const velocity = this.direction.normalized().mul(100 * delta);
-    this.move(velocity);
+    this.velocity = this.velocity.move_toward(
+      this.direction.normalized().mul(100 * delta),
+      10 * delta
+    );
+    this.velocity.y = this.gravity;
+    this.velocity = this.move_and_collide(this.velocity, Vector2.UP);
+    this.gravity = this.velocity.y;
   }
 }
 
 const rigidBody2D = new NodeBase();
+const collider = new Collider2D();
 const quadrado = new Rect2D();
 quadrado.color = "black";
 quadrado.width = 10;
 quadrado.heigth = 10;
+collider.width = 10;
+collider.heigth = 10;
+rigidBody2D.addChild(collider);
 rigidBody2D.addChild(quadrado);
+rigidBody2D.position = new Vector2(20, 20);
 
-observer.addObserver(rigidBody2D);
+const rigidBody2D1 = new KinematicBody2D();
+const collider1 = new Collider2D();
+const quadrado1 = new Rect2D();
+quadrado1.color = "red";
+quadrado1.width = 30;
+quadrado1.heigth = 240;
+collider1.heigth = 30;
+collider1.width = 240;
+rigidBody2D1.addChild(collider1);
+rigidBody2D1.addChild(quadrado1);
+rigidBody2D1.position = new Vector2(0, 400);
