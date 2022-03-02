@@ -19,6 +19,6 @@ export default class extends Node2D {
    */
   render(ctx) {
     ctx.fillStyle = this.color;
-    ctx.fillRect(this.position.x, this.position.y, this.size.y, this.size.x);
+    ctx.fillRect(this.position.x, this.position.y, this.size.x, this.size.y);
   }
 }
