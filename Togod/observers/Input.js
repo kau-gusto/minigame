@@ -1,4 +1,4 @@
-export class Input {
+export default class {
   constructor(observer) {
     this.observer = observer;
     this.keys = {};
@@ -18,6 +18,9 @@ export class Input {
     };
     window.onkeyup = (e) => {
       this.deleteKey(e.key);
+    };
+    window.onblur = () => {
+      this.keys = [];
     };
   }
 

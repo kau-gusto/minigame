@@ -1,4 +1,4 @@
-export class Observer {
+export default class {
   constructor() {
     this.observers = {};
   }
@@ -16,6 +16,9 @@ export class Observer {
     Object.values(this.observers).forEach((obj) => {
       if (event in obj) {
         obj[event](...args);
+      }
+      if ("_" + event in obj) {
+        obj["_" + event](...args);
       }
     });
   }
