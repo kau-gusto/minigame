@@ -64,15 +64,28 @@ export class Vector2 {
   }
 
   move_toward(final_vector, calc) {
-    const temp = temp;
-    calc = calc < 0 ? calc * -1 : calc;
+    const temp = new Vector2(this.x, this.y);
     if (temp.x !== final_vector.x) {
-      const calcX = temp.x > final_vector.x ? calc : -calc;
-      temp.x = temp.x > final_vector.x ? temp.x - calcX : temp.x + calc;
+      if (temp.x < final_vector.x) {
+        const calcX =
+          calc > final_vector.x - temp.x ? final_vector.x - temp.x : calc;
+        temp.x += calcX;
+      } else if (temp.x > final_vector.x) {
+        const calcX =
+          calc > temp.x - final_vector.x ? temp.x - final_vector.x : calc;
+        temp.x -= calcX;
+      }
     }
     if (temp.y !== final_vector.y) {
-      const calcX = temp.x > final_vector.x ? calc : -calc;
-      temp.x = temp.x > final_vector.x ? temp.x - calcX : temp.x + calc;
+      if (temp.y < final_vector.y) {
+        const calcY =
+          calc > final_vector.y - temp.y ? final_vector.y - temp.y : calc;
+        temp.y += calcY;
+      } else if (temp.y > final_vector.y) {
+        const calcY =
+          calc > temp.y - final_vector.y ? temp.y - final_vector.y : calc;
+        temp.y -= calcY;
+      }
     }
     return temp;
   }
