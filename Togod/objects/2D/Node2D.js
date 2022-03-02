@@ -1,7 +1,7 @@
-import { Vector2 } from "../types/Vectors.js";
-import { Node_ } from "./BaseNode.js";
+import { Vector2 } from "../../types/Vectors.js";
+import Node from "../Node.js";
 
-export class Node2D extends Node_ {
+export default class extends Node {
   /**
    *
    * @param {string} name
@@ -41,6 +41,30 @@ export class Node2D extends Node_ {
 
   get position() {
     return this._position;
+  }
+
+  get top() {
+    return this.y;
+  }
+
+  get middleVertical() {
+    return this.position.y + this.size.y / 2;
+  }
+
+  get botton() {
+    return this.y + this.size.y;
+  }
+
+  get left() {
+    return this.x;
+  }
+
+  get middleHorizontal() {
+    return this.position.x + this.size.x / 2;
+  }
+
+  get rigth() {
+    return this.x + this.size.x;
   }
 
   set position(vector2) {
