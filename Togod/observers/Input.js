@@ -1,51 +1,51 @@
-export default class {
-  constructor(observer) {
-    this.observer = observer;
-    this.keys = {};
+export default class Input {
+  static init(observer) {
+    Input.observer = observer;
+    Input.keys = {};
 
     window.onkeydown = (e) => {
-      this.addKey(e.key);
-      this.observer.notify("input", e);
+      Input.addKey(e.key);
+      Input.observer.notify("input", e);
     };
     window.onmousemove = (e) => {
-      this.observer.notify("input", e);
+      Input.observer.notify("input", e);
     };
     window.onmousedown = (e) => {
-      this.observer.notify("input", e);
+      Input.observer.notify("input", e);
     };
     window.onmouseup = (e) => {
-      this.observer.notify("input", e);
+      Input.observer.notify("input", e);
     };
     window.onkeyup = (e) => {
-      this.deleteKey(e.key);
+      Input.deleteKey(e.key);
     };
     window.onblur = () => {
-      this.keys = [];
+      Input.keys = [];
     };
   }
 
-  addKey(key) {
-    if (!(key in this.keys)) {
-      this.keys[key] = true;
+  static addKey(key) {
+    if (!(key in Input.keys)) {
+      Input.keys[key] = true;
     }
   }
 
-  deleteKey(key) {
-    if (key in this.keys) {
-      delete this.keys[key];
+  static deleteKey(key) {
+    if (key in Input.keys) {
+      delete Input.keys[key];
     }
   }
 
-  isKeyPressed(key) {
-    if (key in this.keys) {
+  static isKeyPressed(key) {
+    if (key in Input.keys) {
       return true;
     }
     return false;
   }
 
-  isJustKeyPressed(key) {
-    if (key in this.keys && this.keys[key]) {
-      this.keys[key] = false;
+  static isJustKeyPressed(key) {
+    if (key in Input.keys && Input.keys[key]) {
+      Input.keys[key] = false;
       return true;
     }
     return false;

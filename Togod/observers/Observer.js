@@ -1,19 +1,20 @@
-export default class {
-  constructor() {
-    this.observers = {};
+export default class Observer {
+  static init() {
+    Observer.observers = {};
   }
-  addObserver(obj) {
+
+  static addObserver(obj) {
     const id = Math.random();
-    this.observers[id] = obj;
+    Observer.observers[id] = obj;
     return id;
   }
 
-  removeObserver(id) {
+  static removeObserver(id) {
     delete this.observers[id];
   }
 
-  notify(event, ...args) {
-    Object.values(this.observers).forEach((obj) => {
+  static notify(event, ...args) {
+    Object.values(Observer.observers).forEach((obj) => {
       if (event in obj) {
         obj[event](...args);
       }

@@ -1,8 +1,6 @@
-import { colliders } from "../../index.js";
 import { Vector2 } from "../../types/Vectors.js";
 import Collider2D from "./Collider2D.js";
 import Node2D from "./Node2D.js";
-import PhysicsBody2D from "./PhysicsBody2D.js";
 
 export default class KinematicBody2D extends Node2D {
   constructor(name) {
@@ -11,6 +9,8 @@ export default class KinematicBody2D extends Node2D {
     this.collider = null;
     this.is_on_floor = false;
   }
+
+  __queue() {}
 
   addChild(child) {
     super.addChild(child);
@@ -42,7 +42,7 @@ export default class KinematicBody2D extends Node2D {
   move_and_collide(vector2, not_floor = Vector2.ZERO) {
     const stateCollider = this.test_move_and_collide(vector2);
     this.is_on_floor = false;
-    colliders
+    this.three.colliders
       .testColliding(stateCollider, this.collider.idCollider)
       .forEach((infoCollider) => {
         const collider = infoCollider[1];

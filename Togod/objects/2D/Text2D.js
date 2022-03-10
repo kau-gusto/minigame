@@ -1,6 +1,6 @@
-import Node2D from "./Node2D";
+import Node2D from "./Node2D.js";
 
-export default class extends Node2D {
+export default class Text2D extends Node2D {
   /**
    *
    * @param {string} name
@@ -8,17 +8,21 @@ export default class extends Node2D {
    */
   constructor(name) {
     super(name);
-
+    this.fontSize = 15;
     this.color = "";
-    this.string = "";
+    this._string = "";
+  }
+
+  set string(string) {
+    this._string = string.toString();
   }
 
   /**
    * @param {CanvasRenderingContext2D} ctx
    */
-  __render(ctx) {
-    console.log(this.size.x);
+  render(ctx) {
     ctx.fillStyle = this.color;
-    ctx.fillText(this.string, this.position.x, this.position.y, this.size.x);
+    ctx.font = `${this.fontSize}`;
+    ctx.fillText(this._string, this.position.x, this.position.y + 10);
   }
 }

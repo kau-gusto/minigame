@@ -1,6 +1,6 @@
 import Node2D from "./Node2D.js";
 
-export default class extends Node2D {
+export default class Rect2D extends Node2D {
   /**
    *
    * @param {string} name

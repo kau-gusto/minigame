@@ -1,7 +1,7 @@
 import { Vector2 } from "../../types/Vectors.js";
 import Node from "../Node.js";
 
-export default class extends Node {
+export default class Node2D extends Node {
   /**
    *
    * @param {string} name
@@ -69,9 +69,11 @@ export default class extends Node {
 
   set position(vector2) {
     this._position = vector2;
-    this.childs.forEach((child) => {
-      child.position = child.position.add(this.position.sub(child.position));
-    });
+    if (this.childs) {
+      Object.values(this.childs).forEach((child) => {
+        child.position = child.position.add(this.position.sub(child.position));
+      });
+    }
   }
 
   get x() {
@@ -83,16 +85,19 @@ export default class extends Node {
   }
 
   set x(x) {
-    this.childs.forEach((child) => {
-      child.x = child.x + this.x;
-    });
+    if (this.childs)
+      Object.values(this.childs).forEach((child) => {
+        child.x = child.x + this.x;
+      });
     this._position.x = x;
   }
 
   set y(y) {
-    this.childs.forEach((child) => {
-      child.y = child.y + this.y;
-    });
+    if (this.childs) {
+      Object.values(this.childs).forEach((child) => {
+        child.y = child.y + this.y;
+      });
+    }
     this._position.y = y;
   }
 }

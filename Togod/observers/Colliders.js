@@ -1,29 +1,34 @@
-export default class {
-  constructor() {
-    this.colliders = {};
+export default class Colliders {
+  static init() {
+    Colliders.colliders = {};
   }
 
-  addCollider(obj) {
+  static addCollider(obj) {
     const id = Math.random();
-    this.colliders[id] = obj;
+    Colliders.colliders[id] = obj;
     return id;
   }
 
-  removeCollider(id) {
-    delete this.colliders[id];
+  static removeCollider(id) {
+    delete Colliders.colliders[id];
   }
 
-  testColliding(testCollider, id) {
-    return Object.entries(this.colliders).filter(([index, collider]) => {
+  static testColliding(testCollider, id) {
+    return Object.entries(Colliders.colliders).filter(([index, collider]) => {
       if (index == id) {
         return false;
       }
-      return (
+      if (
         testCollider.rigth > collider.left &&
         testCollider.left < collider.rigth &&
         testCollider.botton > collider.top &&
         testCollider.top < collider.botton
-      );
+      ) {
+        if ("colide" in collider.parent) {
+          collider.parent.collide(testCollider);
+        }
+        return true;
+      }
     });
   }
 }
