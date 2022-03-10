@@ -16,7 +16,7 @@ export default class Three {
     Three.input = Input;
     Three.canvas = canvas;
     Three.ctx = ctx;
-    Three.frameRate = 1000 / 24;
+    Three.frameRate = 1000 / 60;
     Three.scene = null;
     Three.render(Date.now());
     Three.physicProcess(Date.now());
