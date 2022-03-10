@@ -1,3 +1,3 @@
 # minigame
 
-"mine-engine" inspirada nos Node utilizados na engine [Godot](https://godotengine.org/)
+"mine-engine" inspirada nos Nodes utilizados na engine [Godot](https://godotengine.org/)
